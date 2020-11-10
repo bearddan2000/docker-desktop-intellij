@@ -74,13 +74,14 @@ function usage() {
 function start-up(){
 
     scope="start-up"
+    docker_img_name=`head -n 1 README.md | sed 's/# //'`
     info_base="[$timestamp INFO]: $basefile::$scope"
 
     echo "$info_base started" >> $logfile
 
     echo "$info_base build image" >> $logfile
 
-    sudo docker build -t intellij ./ubuntu
+    sudo docker build -t $docker_img_name ./ubuntu
 
     echo "$info_base running image" >> $logfile
 
@@ -89,7 +90,7 @@ function start-up(){
       -v workspace:/home/developer/IDEAProject \
       -v prefs:/home/developer/.java/.userPrefs/prefs.xml \
       -v maven:/home/developer/.m2
-      intellij
+      $docker_img_name
 
     echo "$info_base ended" >> $logfile
 
